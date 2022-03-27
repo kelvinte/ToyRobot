@@ -2,18 +2,19 @@ There are 2 modules here
 1. ToyRobot
 2. ToyRobot-html
 
-ToyRobot is a python application that serves the main functionality
-To Run the python application please install the dependencies
-pip install websockets
+ToyRobot is a python application that serves the main functionality.
 
-Then to run the application
+To Run the python application please install the ff dependencies
+1. pip install websockets
+
+Then to run the application go to ToyRobot folder then
 python main.py
 
 or 
 
 py main.py
 
-If you want to run the GUI go to ToyRobot-html
+If you want to run the GUI go to ToyRobot-html folder
 execute this command
 python -m http.server 9000
 or 
