@@ -6,7 +6,7 @@ from robot.action.impl.RightAction import RightAction
 class Robot():
     broadcaster = None
 
-    state = {
+    _state = {
         'x': None,
         'y': None,
         'f': None,
@@ -18,9 +18,13 @@ class Robot():
 
     def __init__(self, broadcaster):
         self.broadcaster = broadcaster
-        self.broadcaster.board = self.board
+        if self.broadcaster is not None:
+            self.broadcaster.board = self.board
 
-    async def _processV2(self, instruction):
+    def get_state(self):
+        return self._state
+
+    async def processV2(self, instruction):
 
         instruct_arr = instruction.split(" ")
         action = instruct_arr[0]
@@ -37,29 +41,30 @@ class Robot():
         if action.lower() == 'place':
             place_action = PlaceAction()
             place_action.set_param(params=parameter)
-            place_action.handle(state=self.state)
+            place_action.handle(state=self._state)
 
         if action.lower() == 'move':
             move_action = MoveAction()
             move_action.set_param(params=parameter)
-            move_action.handle(state=self.state)
+            move_action.handle(state=self._state)
 
 
         if action.lower() == 'left':
             left_action = LeftAction()
             left_action.set_param(params=parameter)
-            left_action.handle(state=self.state)
+            left_action.handle(state=self._state)
 
 
         if action.lower() == 'right':
             right_action = RightAction()
             right_action.set_param(params=parameter)
-            right_action.handle(state=self.state)
+            right_action.handle(state=self._state)
 
 
         if action.lower() == 'report':
-            if self.state['x'] is not None:
-                result = str(self.state['x']) + ',' + str(self.state['y']) + ',' + str(self.state['f'].name)
+            if self._state['x'] is not None:
+                result = str(self._state['x']) + ',' + str(self._state['y']) + ',' + str(self._state['f'].name)
                 print(result)
-                await self.broadcaster.broadcast(result)
+                if self.broadcaster is not None:
+                    await self.broadcaster.broadcast(result)
 
